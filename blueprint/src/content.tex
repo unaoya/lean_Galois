@@ -1,0 +1,64 @@
+% In this file you should put the actual content of the blueprint.
+% It will be used both by the web and the print version.
+% It should *not* include the \begin{document}
+%
+% If you want to split the blueprint content into several files then
+% the current file can be a simple sequence of \input. Otherwise It
+% can start with a \section or \chapter for instance.
+
+\chapter{}
+
+\begin{theorem}
+    有限$K$代数$A$に対し
+    $$
+    (L\otimes_K A)^G=A
+    $$
+    が成り立つ。
+\end{theorem}
+
+\begin{theorem}
+    有限$L$代数$B$が$G$の半線形作用を持つとする。
+    このとき、$\phi:L\otimes_KB^G\to B$を$a\otimes x\mapsto ax$で定めると、
+    これは$G$の半線形作用を保つ$L$同型である。
+\end{theorem}
+
+\begin{lemma}
+    $G$は有限群である。
+\end{lemma}
+
+\begin{lemma}
+    $L$の$K$線形空間としての基底$a_1,\ldots,a_d$をとる。
+    このとき、以下を満たす$b_1,\ldots,b_d\in L$が存在する。
+    $\sigma\in G$に対し、
+    $$
+    \sum_{i=1}^db_i\sigma(a_i)=
+    \begin{cases}
+        1 & (\sigma=1)\\
+        0 & (\sigma\neq 1)
+    \end{cases}
+    $$
+\end{lemma}
+
+\begin{proposition}
+    $G$の半線形作用を保つ$L$同型$L\otimes_KL\cong L^G$がある。
+\end{proposition}
+
+\begin{proposition}
+    $L_G$の任意の部分$L$代数$A$に対し、
+    $A=L_{X_1,\ldots,X_r}$をみたす$G$の分割$$G=X_1\sqcup \cdots\sqcup X_r$$が存在する。
+    さらに、このような$X_1,\ldots,X_r$は並べ替えを除いて一意である。
+    すなわち、$L_G$の部分$L$代数は$G$の分割と一対一に対応する。
+\end{proposition}
+
+\begin{proposition}
+    $G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
+    \begin{enumerate}
+        \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。
+        \item $G$の部分群$H$が存在して、$G=X_1\sqcup\cdots\sqcup X_r$は$G$の$H$に関する左剰余類の分割$G=g_1H\sqcup\cdots g_rH$と一致する。（このような部分群$H$は一意である。）
+    \end{enumerate}
+    すなわち、$G$の作用で保たれる$G$の分割は$G$の部分群と一対一に対応する。
+\end{proposition}
+
+\begin{theorem}
+    $L$の部分$K$代数と$G$の部分群は一対一に対応する。
+\end{theorem}

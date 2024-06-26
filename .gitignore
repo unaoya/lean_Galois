@@ -1,0 +1,6 @@
+/.lake
+venv
+out
+.DS_Store
+print
+web
