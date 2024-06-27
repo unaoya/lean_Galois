@@ -8,7 +8,7 @@
 
 \chapter{}
 
-\begin{theorem}
+\begin{theorem}\label{Galois-descent1}
     有限$K$代数$A$に対し
     $$
     (L\otimes_K A)^G=A
@@ -16,17 +16,17 @@
     が成り立つ。
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}\label{Galois-descent2}
     有限$L$代数$B$が$G$の半線形作用を持つとする。
     このとき、$\phi:L\otimes_KB^G\to B$を$a\otimes x\mapsto ax$で定めると、
     これは$G$の半線形作用を保つ$L$同型である。
 \end{theorem}
 
-\begin{lemma}
+\begin{lemma}\label{finite}
     $G$は有限群である。
 \end{lemma}
 
-\begin{lemma}
+\begin{lemma}\label{basis}
     $L$の$K$線形空間としての基底$a_1,\ldots,a_d$をとる。
     このとき、以下を満たす$b_1,\ldots,b_d\in L$が存在する。
     $\sigma\in G$に対し、
@@ -39,18 +39,18 @@
     $$
 \end{lemma}
 
-\begin{proposition}
-    $G$の半線形作用を保つ$L$同型$L\otimes_KL\cong L^G$がある。
+\begin{proposition}\label{ext-self}
+    $G$の半線形作用を保つ$L$同型$L\otimes_KL\cong L_G$がある。
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{subalgebra-decomp}
     $L_G$の任意の部分$L$代数$A$に対し、
     $A=L_{X_1,\ldots,X_r}$をみたす$G$の分割$$G=X_1\sqcup \cdots\sqcup X_r$$が存在する。
     さらに、このような$X_1,\ldots,X_r$は並べ替えを除いて一意である。
     すなわち、$L_G$の部分$L$代数は$G$の分割と一対一に対応する。
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{group-decomp}
     $G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
     \begin{enumerate}
         \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。
@@ -59,6 +59,7 @@
     すなわち、$G$の作用で保たれる$G$の分割は$G$の部分群と一対一に対応する。
 \end{proposition}
 
-\begin{theorem}
+\begin{theorem}\label{main}
+    \uses{Galois-descent1, Galois-descent2, ext-self, subalgebra-decomp, group-decomp}
     $L$の部分$K$代数と$G$の部分群は一対一に対応する。
 \end{theorem}
