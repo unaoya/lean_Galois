@@ -8,6 +8,16 @@
 
 \chapter{}
 
+\begin{proposition}\label{alg-hom}
+    $A$を有限$K$代数とし、$h_1,\ldots,h_r:A\to K$を相異なる$K$準同型とする。
+    このとき、$h:A\to K^r$を
+    $$
+    h(a)=(h_1(a),\ldots,h_r(a))
+    $$
+    により定めると、これは全射である。
+    特に、$\# Hom_K(A,K)\leq\dim_KA$が成り立つ。
+\end{proposition}
+
 \begin{theorem}\label{Galois-descent1}
     有限$K$代数$A$に対し
     $$
@@ -17,6 +27,7 @@
 \end{theorem}
 
 \begin{theorem}\label{Galois-descent2}
+    \uses{finite, basis}
     有限$L$代数$B$が$G$の半線形作用を持つとする。
     このとき、$\phi:L\otimes_KB^G\to B$を$a\otimes x\mapsto ax$で定めると、
     これは$G$の半線形作用を保つ$L$同型である。
@@ -40,10 +51,12 @@
 \end{lemma}
 
 \begin{proposition}\label{ext-self}
+    \uses{Galois-descent2}
     $G$の半線形作用を保つ$L$同型$L\otimes_KL\cong L_G$がある。
 \end{proposition}
 
 \begin{proposition}\label{subalgebra-decomp}
+    \uses{alg-hom}
     $L_G$の任意の部分$L$代数$A$に対し、
     $A=L_{X_1,\ldots,X_r}$をみたす$G$の分割$$G=X_1\sqcup \cdots\sqcup X_r$$が存在する。
     さらに、このような$X_1,\ldots,X_r$は並べ替えを除いて一意である。
