@@ -4,5 +4,5 @@
 blueprint
 https://unaoya.github.io/lean_Galois/blueprint/
 
-YouTube
-TBC
+YouTubeで毎週土曜夜に配信予定
+https://youtube.com/live/kr7U8XPmBJU?feature=share
