@@ -63,8 +63,53 @@
     すなわち、$L_G$の部分$L$代数は$G$の分割と一対一に対応する。
 \end{proposition}
 
+\begin{definition}\label{group-def}
+    集合$G$と$m:G\times G\to G, i:G\to G, e\in G$の組$(G,m,i,e)$が群であるとは
+    \begin{enumerate}
+        \item $m$が結合的なこと。$m(m(a,b),c)=m(a,m(b,c))$
+        \item $i$が逆元であること。$m(a,i(a))=m(i(a),a)=e$
+        \item $e$が単位元であること。$m(e,a)=m(a,e)=a$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}\label{subgroup-def}
+    \uses{group-def}
+    群$G$の部分群$H$とは、$H\subset G$であって、
+    \begin{enumerate}
+        \item $H$が$m$に関して閉じている。$a,b\in H\Rightarrow m(a,b)\in H$
+        \item $H$が$i$に関して閉じている。$a\in H\Rightarrow i(a)\in H$
+        \item $H$が$e$を含む。$e\in H$
+    \end{enumerate}
+    を満たすものである。
+\end{definition}
+
+\begin{definition}\label{action-def}
+    \uses{group-def}
+    群$G$の集合$X$への作用とは、$a:G\times X\to X$であって、
+    \begin{enumerate}
+        \item $a(g,a(g',x))=a(m(a,a'),x)$
+        \item $a(e,x)=x$
+        \item $a(i(g),a(g,x))=x$
+    \end{enumerate}
+    を満たすもの。
+\end{definition}
+
+\begin{definition}
+    \label{decomposition-def}
+    \lean{Decomposition}
+    \leanok    
+    集合$X$の部分集合族$\{X_i\}_{i\in I}$が$X$の分割であるとは、
+    \begin{enumerate}
+        \item 任意の$i\in I$について$X_i\neq\emptyset$
+        \item $X=\bigcup_{i\in I}X_i$
+        \item $i\neq j\Rightarrow X_i\cap X_j=\emptyset$
+    \end{enumerate}
+    が成り立つことである。
+\end{definition}
+
 \begin{proposition}\label{group-decomp}
-    $G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
+    \uses{subgroup-def,decomposition-def,action-def}
+    群$G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
     \begin{enumerate}
         \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。
         \item $G$の部分群$H$が存在して、$G=X_1\sqcup\cdots\sqcup X_r$は$G$の$H$に関する左剰余類の分割$G=g_1H\sqcup\cdots g_rH$と一致する。（このような部分群$H$は一意である。）
