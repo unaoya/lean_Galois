@@ -111,11 +111,20 @@
     が成り立つことである。
 \end{definition}
 
+\begin{proposition}
+    \label{left-multiplication}
+    群$G$は$G$に左からの積で作用する。
+    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=gh$で定めると、これは$G$の$X$への作用である。
+\end{proposition}
+
+% 群作用による商として抽象化した方がよさそう
+% 群の作用が部分群の作用を誘導することも使う
 \begin{definition}
     \label{quotient-def}
-    群$G$の部分群$H$に対し、$G/H=\{gH\mid g\in G\}$と定義する。
+    群$G$の部分群$H$に対し、左剰余類の集合を$G/H=\{gH\mid g\in G\}$と定義する。
 \end{definition}
 
+% 同値関係による分割として抽象化した方がよさそう
 \begin{proposition}
     \label{subgroup-decomp}
     \uses{subgroup-def,decomposition-def,quotient-def}
@@ -123,12 +132,7 @@
     $f:G/H\to P(G)$を$gH\mapsto gH$で定めるとこれは分割になる。
 \end{proposition}
 
-\begin{proposition}
-    \label{left-multiplication}
-    群$G$は$G$に左からの積で作用する。
-    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=gh$で定めると、これは$G$の$X$への作用である。
-\end{proposition}
-
+% Xへの作用がX -> Yへの作用を誘導することも使う
 \begin{proposition}
     \label{powerset-action}
     \uses{action-def}
@@ -144,6 +148,7 @@
     任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
 \end{proposition}
 
+% GがXに作用するとき、X -> Yに作用することを使う
 \begin{proposition}
     \label{decomp-action}
     \uses{action-def,decomposition-def,powerset-action}
@@ -151,11 +156,11 @@
     すなわち$f:I\to P(X)$に対し、$g\cdot f$を$i\mapsto g\cdot f(i)$で定めるとこれは作用になる。
 \end{proposition}
 
+% 対称群の群作用による同値関係で書いた方がよさそう
 \begin{proposition}
-    \label{decomp-equiv}
+    \label{decomp-equiv, decomposition-def}
     集合$X$の分割$f:I\to X$と$g:I\to X$が同値であるとは、
     ある$\sigma\in S_I$が存在して、任意の$i\in I$に対し$f(i)=g(\sigma(i))$が成り立つことである。
-    % 対称群の群作用による同値関係で書いた方がよさそう
 \end{proposition}
 
 \begin{proposition}\label{group-decomp}
