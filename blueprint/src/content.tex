@@ -64,6 +64,8 @@
 \end{proposition}
 
 \begin{definition}\label{group-def}
+    \lean{Group}
+    \leanok
     集合$G$と$m:G\times G\to G, i:G\to G, e\in G$の組$(G,m,i,e)$が群であるとは
     \begin{enumerate}
         \item $m$が結合的なこと。$m(m(a,b),c)=m(a,m(b,c))$
@@ -74,6 +76,8 @@
 
 \begin{definition}\label{subgroup-def}
     \uses{group-def}
+    \lean{Subgroup}
+    \leanok
     群$G$の部分群$H$とは、$H\subset G$であって、
     \begin{enumerate}
         \item $H$が$m$に関して閉じている。$a,b\in H\Rightarrow m(a,b)\in H$
@@ -107,8 +111,55 @@
     が成り立つことである。
 \end{definition}
 
+\begin{definition}
+    \label{quotient-def}
+    群$G$の部分群$H$に対し、$G/H=\{gH\mid g\in G\}$と定義する。
+\end{definition}
+
+\begin{proposition}
+    \label{subgroup-decomp}
+    \uses{subgroup-def,decomposition-def,quotient-def}
+    $G$の部分群$H$に対し、$G$の分割が次のように定まる。
+    $f:G/H\to P(G)$を$gH\mapsto gH$で定めるとこれは分割になる。
+\end{proposition}
+
+\begin{proposition}
+    \label{left-multiplication}
+    群$G$は$G$に左からの積で作用する。
+    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=gh$で定めると、これは$G$の$X$への作用である。
+\end{proposition}
+
+\begin{proposition}
+    \label{powerset-action}
+    \uses{action-def}
+    群$G$が$X$に作用するとき、$G$の$P(X)$への作用が次のように定まる。
+    すなわち$A\in P(X)$に対し、$g\cdot A=gA=\{g\cdot x\mid x\in A\}$と定める。
+    これが作用となる。
+\end{proposition}
+
+\begin{proposition}
+    \label{fixed-point}
+    \uses{action-def}
+    群$G$が$X$に作用するとき、$x\in X$が固定点であるとは、
+    任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
+\end{proposition}
+
+\begin{proposition}
+    \label{decomp-action}
+    \uses{action-def,decomposition-def,powerset-action}
+    群$G$が$X$に作用するとき、添え字集合$I$を持つ$X$の分割全体の集合にも$G$が作用する。
+    すなわち$f:I\to P(X)$に対し、$g\cdot f$を$i\mapsto g\cdot f(i)$で定めるとこれは作用になる。
+\end{proposition}
+
+\begin{proposition}
+    \label{decomp-equiv}
+    集合$X$の分割$f:I\to X$と$g:I\to X$が同値であるとは、
+    ある$\sigma\in S_I$が存在して、任意の$i\in I$に対し$f(i)=g(\sigma(i))$が成り立つことである。
+    % 対称群の群作用による同値関係で書いた方がよさそう
+\end{proposition}
+
 \begin{proposition}\label{group-decomp}
-    \uses{subgroup-def,decomposition-def,action-def}
+    \uses{subgroup-def,decomposition-def,action-def,subgroup-decomp,fixed-point,decomp-action,decomp-equiv,left-multiplication,powerset-action}
     群$G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
     \begin{enumerate}
         \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。

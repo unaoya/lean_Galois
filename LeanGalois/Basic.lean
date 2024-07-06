@@ -1,5 +1,15 @@
 def Set (α : Type) := α → Prop
 
+def Emptyset {α : Type} : Set α := fun _ => False
+
+notation "∅" => Emptyset
+
+notation "⊥" => Set.Empty
+
+def Univset {α : Type} : Set α := fun _ => True
+
+notation "⊤" => Set.Univ
+
 def Set.Union {α : Type} (s t : Set α) : Set α :=
   fun a => s a ∨ t a
 
@@ -9,65 +19,112 @@ def Set.Member {α : Type} (a : α) (s : Set α) : Prop := s a
 
 notation a " ∈ " s => Set.Member a s
 
-def Set.Family (α ι : Type) := ι → Set α
-
-def Set.BigUnion {α ι : Type} (f : Set.Family α ι) : Set α :=
-  fun a => ∃ t : ι, a ∈ f t
-
 def Set.Disjoint {α : Type} (s t : Set α) : Prop :=
   ∀ a, ¬(s a ∧ t a)
 
-def Set.Empty {α : Type} : Set α := fun _ => False
-
-notation "∅" => Set.Empty
-
-def Set.Intersect {α : Type} (s t : Set α) : Set α :=
+def Set.Intersection {α : Type} (s t : Set α) : Set α :=
   fun a => s a ∧ t a
 
+notation s " ∩ " t => Set.Intersection s t
+
+def Family (α ι : Type) := ι → Set α
+
+def Family.BigUnion {α ι : Type} (f : Family α ι) : Set α :=
+  fun a => ∃ t : ι, a ∈ f t
+
 -- 部分集合族が互いに素であること
-def DisjointFamily {α ι : Type} (f : Set.Family α ι) : Prop := ∀ i j : ι, i ≠ j → Set.Disjoint (f i) (f j)
+def Family.Disjoint {α ι : Type} (f : Family α ι) : Prop := ∀ i j : ι, i ≠ j → Set.Disjoint (f i) (f j)
 
-notation "⊥" => Set.Empty
-
-def Set.Univ {α : Type} : Set α := fun _ => True
-
-notation "⊤" => Set.Univ
-
-def Covering {α ι : Type} (f : Set.Family α ι) : Prop := Set.BigUnion f = ⊤
+def Family.Covering {α ι : Type} (f : Family α ι) : Prop := f.BigUnion = ⊤
 
 -- 部分集合族が分割であることの定義
-def Decomposition {α ι : Type} (f : Set.Family α ι) : Prop := (∀ i : ι, f i ≠ ∅) ∧ Covering f ∧ DisjointFamily f
+-- def Decomposition {α ι : Type} (f : Family α ι) : Prop := (∀ i : ι, f i ≠ ∅) ∧ f.Covering ∧ f.Disjoint
+structure Famiily.Decomposition {α ι : Type} (f : Family α ι) : Prop where
+  nonempty : ∀ i : ι, f i ≠ ∅
+  covering : f.Covering
+  disjoint : f.Disjoint
 
+-- 群の定義
+-- 環のことも考えて演算と単位元を分けた方がいいかもしれない
+class Group (G : Type) where
+  mul : G → G → G
+  inv : G → G
+  one : G
+  mul_assoc : ∀ a b c : G, mul (mul a b) c = mul a (mul b c)
+  one_mul : ∀ a : G, mul one a = a
+  mul_one : ∀ a : G, mul a one = a
+  mul_left_inv : ∀ a : G, mul (inv a) a = one
+  mul_right_inv : ∀ a : G, mul a (inv a) = one
 
+theorem one_unique (G : Type) [Group G] (x : G) (h₁ : ∀ y : G, Group.mul x y = y) (h₂ : ∀ y : G, Group.mul y x = y) : x = Group.one := by
+  calc
+    x = Group.mul x Group.one := by rw [Group.mul_one x]
+    _ = Group.one := by rw [h₁ Group.one]
 
-theorem Set.union_assoc {α : Type} (s t u : Set α) : ((s ∪ t) ∪ u) = (s ∪ (t ∪ u)) := by
-  funext x
-  ext
-  exact or_assoc
+theorem mul_one_inv (G : Type) [Group G] (x y : G) (h : Group.mul x y = Group.one) : y = Group.inv x := by
+  have := congrArg (fun z => Group.mul (Group.inv x) z) h
+  simp at this
+  rw [Group.mul_one, ← Group.mul_assoc, Group.mul_left_inv, Group.one_mul] at this
+  exact this
 
-theorem Disjoint_iff_Intersect_empty {α : Type} (s t : Set α) : Set.Disjoint s t ↔ (Set.Intersect s t) = (∅ : Set α) := by
-  constructor
-  · intro h
-    funext x
-    ext
-    constructor
-    · intro h'
-      rw [Set.Empty]
-      rw [Set.Intersect] at h'
-      rw [Set.Disjoint] at h
-      exact h x h'
-    · intro h'
-      rw [Set.Empty] at h'
-      apply False.elim
-      exact h'
-  · intro h
-    rw [Set.Disjoint]
-    intro a
-    intro h'
-    have : s.Intersect t a = False := congrFun h a
-    rw [Set.Intersect] at this
-    rw [this] at h'
-    exact h'
+theorem inv_one_one (G : Type) [Group G] : (Group.one : G) = Group.inv Group.one := by
+  apply mul_one_inv
+  rw [Group.one_mul]
+
+structure Subgroup (G : Type) [Group G] where
+  carrier : Set G
+  one_mem : Group.one ∈ carrier
+  mul_mem : ∀ {x y}, (x ∈ carrier) → (y ∈ carrier) → Group.mul x y ∈ carrier
+  inv_mem : ∀ {x}, (x ∈ carrier) → (Group.inv x ∈ carrier)
+
+-- 自明な部分群
+def trivial_subgroup (G : Type) [Group G] : Subgroup G where
+  carrier := Univset
+  one_mem := trivial
+  mul_mem := fun _ _ => trivial
+  inv_mem := fun _ => trivial
+
+def trivial_subgroup' (G : Type) [Group G] : Subgroup G where
+  carrier := fun x => x = Group.one
+  one_mem := rfl
+  mul_mem := by
+    intro x y hx hy
+    rw [Set.Member] at *
+    rw [hx, hy, Group.one_mul]
+  inv_mem := by
+    intro x hx
+    rw [Set.Member] at *
+    rw [hx]
+    exact (inv_one_one G).symm
+
+-- theorem Set.union_assoc {α : Type} (s t u : Set α) : ((s ∪ t) ∪ u) = (s ∪ (t ∪ u)) := by
+--   funext x
+--   ext
+--   exact or_assoc
+
+-- theorem Disjoint_iff_Intersect_empty {α : Type} (s t : Set α) : Set.Disjoint s t ↔ (Set.Intersection s t) = (∅ : Set α) := by
+--   constructor
+--   · intro h
+--     funext x
+--     ext
+--     constructor
+--     · intro h'
+--       rw [Set.Empty]
+--       rw [Set.Intersection] at h'
+--       rw [Set.Disjoint] at h
+--       exact h x h'
+--     · intro h'
+--       rw [Set.Empty] at h'
+--       apply False.elim
+--       exact h'
+--   · intro h
+--     rw [Set.Disjoint]
+--     intro a
+--     intro h'
+--     have : s.Intersection t a = False := congrFun h a
+--     rw [Set.Intersection] at this
+--     rw [this] at h'
+--     exact h'
 
 -- def Set.Contained {α : Type} (s t : Set α) : Prop :=
 --   ∀ a, s a → t a
