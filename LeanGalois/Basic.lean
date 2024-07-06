@@ -4,11 +4,11 @@ def Emptyset {α : Type} : Set α := fun _ => False
 
 notation "∅" => Emptyset
 
-notation "⊥" => Set.Empty
+notation "⊥" => Emptyset
 
 def Univset {α : Type} : Set α := fun _ => True
 
-notation "⊤" => Set.Univ
+notation "⊤" => Univset
 
 def Set.Union {α : Type} (s t : Set α) : Set α :=
   fun a => s a ∨ t a
