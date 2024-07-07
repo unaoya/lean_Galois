@@ -12,25 +12,30 @@ class Group (G : Type) where
   mul_left_inv : ∀ a : G, mul (inv a) a = one
   mul_right_inv : ∀ a : G, mul a (inv a) = one
 
-theorem one_unique (G : Type) [Group G] (x : G) (h₁ : ∀ y : G, Group.mul x y = y) : x = Group.one := by
-  calc
-    x = Group.mul x Group.one := by rw [Group.mul_one x]
-    _ = Group.one := by rw [h₁ Group.one]
+namespace Group
+variable {G : Type} [Group G] (x y : G)
 
-theorem one_unique' (G : Type) [Group G] (x : G) (h₂ : ∀ y : G, Group.mul y x = y) : x = Group.one := by
+theorem one_unique (h₁ : ∀ y : G, Group.mul x y = y) : x = one := by
   calc
-    x = Group.mul Group.one x := by rw [Group.one_mul x]
-    _ = Group.one := by rw [h₂ Group.one]
+    x = mul x one := by rw [mul_one x]
+    _ = one := by rw [h₁ one]
 
-theorem mul_one_inv (G : Type) [Group G] (x y : G) (h : Group.mul x y = Group.one) : y = Group.inv x := by
-  have := congrArg (fun z => Group.mul (Group.inv x) z) h
+theorem one_unique' (h₂ : ∀ y : G, Group.mul y x = y) : x = one := by
+  calc
+    x = mul one x := by rw [one_mul x]
+    _ = one := by rw [h₂ one]
+
+theorem mul_one_inv (h : mul x y = one) : y = inv x := by
+  have := congrArg (fun z => mul (inv x) z) h
   simp at this
-  rw [Group.mul_one, ← Group.mul_assoc, Group.mul_left_inv, Group.one_mul] at this
+  rw [mul_one, ← mul_assoc, mul_left_inv, one_mul] at this
   exact this
 
-theorem inv_one_one (G : Type) [Group G] : (Group.one : G) = Group.inv Group.one := by
+theorem inv_one_one : (one : G) = inv one := by
   apply mul_one_inv
-  rw [Group.one_mul]
+  rw [one_mul]
+
+end Group
 
 structure Subgroup (G : Type) [Group G] where
   carrier : Set G
@@ -56,4 +61,4 @@ def trivial_subgroup' (G : Type) [Group G] : Subgroup G where
     intro x hx
     rw [Set.Member] at *
     rw [hx]
-    exact (inv_one_one G).symm
+    exact Group.inv_one_one.symm

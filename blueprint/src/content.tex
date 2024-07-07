@@ -87,6 +87,7 @@
     を満たすものである。
 \end{definition}
 
+% 右作用と左作用を両方定義した方がよさそう
 \begin{definition}\label{action-def}
     \uses{group-def}
     群$G$の集合$X$への作用とは、$a:G\times X\to X$であって、
@@ -119,6 +120,7 @@
 
 % 群作用による商として抽象化した方がよさそう
 % 群の作用が部分群の作用を誘導することも使う
+% HのGへの右からの積による作用と解釈する
 \begin{definition}
     \label{quotient-def}
     群$G$の部分群$H$に対し、左剰余類の集合を$G/H=\{gH\mid g\in G\}$と定義する。
@@ -133,6 +135,7 @@
 \end{proposition}
 
 % Xへの作用がX -> Yへの作用を誘導することも使う
+% P(X)=Set XをX -> Propとみて、GのXへの作用から誘導する。
 \begin{proposition}
     \label{powerset-action}
     \uses{action-def}
@@ -148,7 +151,10 @@
     任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
 \end{proposition}
 
-% GがXに作用するとき、X -> Yに作用することを使う
+% GがYに作用するとき、X -> Yに作用することを使う
+% 部分集合族への作用をI -> P(X)のGのP(X)への作用を誘導することから定め、
+% 部分集合族の中で分割の条件が上の群作用保たれることをみる。
+% G-setに対してsub G-setの概念を導入する。
 \begin{proposition}
     \label{decomp-action}
     \uses{action-def,decomposition-def,powerset-action}
