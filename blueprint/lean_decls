@@ -1,7 +1,9 @@
+Family.Decomposition
+equivrel_to_decomp
 Group
 Subgroup
-Family.Decomposition
 LGSet
 isLFixedPoint
 self_LGSet
 fun_LGSet
+PSet_LGSet_eq_image

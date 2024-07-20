@@ -6,7 +6,284 @@
 % the current file can be a simple sequence of \input. Otherwise It
 % can start with a \section or \chapter for instance.
 
-\chapter{}
+\chapter{集合と分割}
+
+\begin{definition}
+    \label{decomposition-def}
+    \lean{Family.Decomposition}
+    \leanok    
+    集合$X$の部分集合族$\{X_i\}_{i\in I}$が$X$の分割であるとは、
+    \begin{enumerate}
+        \item 任意の$i\in I$について$X_i\neq\emptyset$
+        \item $X=\bigcup_{i\in I}X_i$
+        \item $i\neq j\Rightarrow X_i\cap X_j=\emptyset$
+    \end{enumerate}
+    が成り立つことである。
+\end{definition}
+
+\begin{proposition}\label{equivrel-to-decomp}
+    \uses{decomposition-def}
+    \lean{equivrel_to_decomp}
+    \leanok
+    集合$X$上の同値関係$R$にたいし、集合$X$の分割$f:X/R \to X$を
+    $$f([x])=[x]$$とすることで定める。
+\end{proposition}
+
+\begin{proof}
+    \leanok
+    集合$X$上の同値関係$R$による商集合$X/R$にたいし、
+    $X$の部分集合族を$f:X/R\to P(X)$を$f([x])=[x]$で定める。
+    これは分割である。
+    なぜなら、
+    $x\in [x]$より$f([x])\neq\emptyset$である。
+    $[x]\neq[y]$ならば$f([x])\cap f([y])=\emptyset$である。
+    $x\in X$に対し、$x\in f([x])=[x]$より、
+    $$\bigcup_{[x]\in X/R}f([x])=X$$である。
+\end{proof}
+
+\chapter{群と作用}
+
+\begin{definition}\label{group-def}
+    \lean{Group}
+    \leanok
+    集合$G$と$m:G\times G\to G, i:G\to G, e\in G$の組$(G,m,i,e)$が群であるとは
+    \begin{enumerate}
+        \item $m$が結合的なこと。$m(m(a,b),c)=m(a,m(b,c))$
+        \item $i$が逆元であること。$m(a,i(a))=m(i(a),a)=e$
+        \item $e$が単位元であること。$m(e,a)=m(a,e)=a$
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}\label{subgroup-def}
+    \uses{group-def}
+    \lean{Subgroup}
+    \leanok
+    群$G$の部分群$H$とは、$H\subset G$であって、
+    \begin{enumerate}
+        \item $H$が$m$に関して閉じている。$a,b\in H\Rightarrow m(a,b)\in H$
+        \item $H$が$i$に関して閉じている。$a\in H\Rightarrow i(a)\in H$
+        \item $H$が$e$を含む。$e\in H$
+    \end{enumerate}
+    を満たすものである。
+\end{definition}
+
+
+% 右作用と左作用を両方定義した方がよさそう
+\begin{definition}\label{left-action-def}
+    \uses{group-def}
+    \lean{LGSet}
+    \leanok
+    群$G$の集合$X$への左作用とは、$a:G\times X\to X$であって、
+    \begin{enumerate}
+        \item $a(g,a(g',x))=a(m(g,g'),x)$
+        \item $a(e,x)=x$
+        \item $a(i(g),a(g,x))=x$
+    \end{enumerate}
+    を満たすもの。
+\end{definition}
+
+\begin{definition}\label{right-action-def}
+    \uses{group-def}
+    群$G$の集合$X$への右作用とは、$a:G\times X\to X$であって、
+    \begin{enumerate}
+        \item $a(g,a(g',x))=a(m(g',g),x)$
+        \item $a(e,x)=x$
+        \item $a(i(g),a(g,x))=x$
+    \end{enumerate}
+    を満たすもの。
+\end{definition}
+
+\begin{definition}
+    \label{left-fixed-point}
+    \uses{left-action-def}
+    \lean{isLFixedPoint}
+    \leanok
+    群$G$が$X$に左作用するとき、$x\in X$が固定点であるとは、
+    任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
+\end{definition}
+
+\begin{proposition}
+    \label{right-fixed-point}
+    \uses{right-action-def}
+    群$G$が$X$に右作用するとき、$x\in X$が固定点であるとは、
+    任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
+\end{proposition}
+
+\begin{proposition}
+    \label{left-multiplication}
+    \uses{left-action-def}
+    \lean{self_LGSet}
+    \leanok
+    群$G$は$G$に左からの積で左作用する。
+    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=gh$で定めると、これは$G$の$X$への左作用である。
+\end{proposition}
+
+\begin{proof}
+    \leanok
+    $g, h, k\in G$に対し、
+    $a(g,a(h,k))=a(g,hk)=ghk=(gh)k=a(m(g,h),k)$が成り立つ。
+    $a(e,g)=eg=g$が成り立つ。
+    $a(i(g),g)=i(g)g=gg=e$が成り立つ。
+\end{proof}
+
+\begin{proposition}
+    \label{right-multiplication}
+    \uses{right-action-def}
+    群$G$は$G$に右からの積で右作用する。
+    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=hg$で定めると、これは$G$の$X$への右作用である。
+\end{proposition}
+
+% Xへの作用がX -> Yへの作用を誘導することも使う
+\begin{proposition}
+    \label{left-function-right-action}
+    \uses{left-action-def}
+    群$G$が$X$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が右作用する。
+    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto f(gx)$で定めるとこれは右作用になる。
+\end{proposition}
+
+\begin{proof}
+    $g, h\in G$と$f:X\to Y$に対し、
+    $(gh)\cdot f(x)=f((gh)x)=f(g(hx))=(g\cdot f)(hx)=h\cdot(g\cdot f)(x)$が成り立つ。
+\end{proof}
+
+\begin{proposition}
+    \label{left-function-left-action}
+    \uses{left-action-def}
+    \lean{fun_LGSet}
+    \leanok
+    群$G$が$X$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が左作用する。
+    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto f(g^{-1}x)$で定めるとこれは左作用になる。
+\end{proposition}
+
+\begin{proof}
+    \leanok
+    $g, h\in G$と$f:X\to Y$に対し、
+    $(gh)\cdot f(x)=f((gh)^{-1}x)=f(h^{-1}(g^{-1}x))=(h\cdot f)(hx)=g\cdot(h\cdot f)(x)$が成り立つ。
+\end{proof}
+
+% P(X)=Set XをX -> Propとみて、GのXへの作用から誘導する。
+\begin{proposition}
+    \label{powerset-action}
+    \uses{left-action-def,left-function-left-action}
+    \lean{PSet_LGSet_eq_image}
+    \leanok
+    群$G$が$X$に左作用するとき、$G$の$P(X)$への左作用が次のように定まる。
+    すなわち$A\in P(X)$に対し、$g\cdot A=gA=\{g\cdot x\mid x\in A\}$と定める。
+\end{proposition}
+
+\begin{proof}
+    \leanok
+    $P(X)$を$X \to 2$の集合とみる。
+    $f:X\to 2$に対し、$f^{-1}(1)\in P(X)$が対応する。
+    上の命題から、$g\cdot f$を$x\mapsto f(g^{-1}x)$で定めるとこれは左作用になる。
+    $A\in P(X)$に対応する$\chi_A:X\to 2$に対し、
+    $g\cdot \chi_A(x)=\chi_A(g^{-1}x)$であり、
+    $g\cdot\chi_A(x)=1$であることは$g^{-1}x\in A$と同値で、
+    これは$x\in (g^{-1})^{-1}A=gA$と同値である。
+\end{proof}
+
+% GがYに作用するとき、X -> Yに作用することを使う
+% 部分集合族への作用をI -> P(X)のGのP(X)への作用を誘導することから定め、
+% 部分集合族の中で分割の条件が上の群作用保たれることをみる。
+% G-setに対してsub G-setの概念を導入する。
+\begin{proposition}
+    \label{left-function-left-action2}
+    \uses{left-action-def}
+    群$G$が$Y$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が左作用する。
+    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto gf(x)$で定めるとこれは左作用になる。
+\end{proposition}
+
+\begin{proof}
+    $g, h\in G$と$f:X\to Y$に対し、
+    $(gh)\cdot f(x)=ghf(x)=g\cdot(h\cdot f)(x)$が成り立つ。
+\end{proof}
+
+\begin{proposition}
+    \label{decomp-action}
+    \uses{left-action-def,decomposition-def,powerset-action,left-function-left-action2}
+    群$G$が$X$に左作用するとき、添え字集合$I$を持つ$X$の分割全体の集合にも$G$が左作用する。
+    すなわち$f:I\to P(X)$に対し、$g\cdot f$を$i\mapsto g\cdot f(i)$で定めるとこれは作用になる。
+\end{proposition}
+
+\begin{proof}
+    $G$の$X$への左作用から、$P(X)$への左作用が定まり、さらにそこから$I\to P(X)$全体への左作用が定まる。
+    これが分割であることを保つ。
+    空でない部分集合が空でない部分集合にうつる。
+    被覆ならば被覆にうつる。
+    互いに素ならば互いに素にうつる。
+\end{proof}
+
+\begin{proposition}
+    \label{symmetric}
+    \uses{group-def}
+    集合$X$の自己同型$f:X\to X$全体は合成を演算として群をなす。
+    これを$S_X$と表す。
+\end{proposition}
+
+\begin{proof}
+    自己同型の合成は自己同型である。
+    写像の合成は結合的である。
+    自己同型の逆写像は自己同型である。
+    恒等写像は自己同型である。
+\end{proof}
+
+% 対称群の群作用による同値関係で書いた方がよさそう
+\begin{proposition}
+    \label{decomp-equiv}
+    \uses{left-function-right-action, symmetric}
+    集合$X$の分割$f:I\to X$と$g:I\to X$が同値であるとは、
+    ある$\sigma\in S_I$が存在して、任意の$i\in I$に対し$f(i)=g(\sigma(i))$が成り立つことである。
+\end{proposition}
+
+\begin{proposition}
+    \label{decomp-equiv-action}
+    \uses{decomp-action, decomp-equiv}
+    $X$が左$G$作用を持つとする。
+    集合$X$の$I$を添え字集合とする分割全体の集合の$S_I$作用による軌道全体の集合に$G$が左作用する。
+\end{proposition}
+
+% 群作用による商として抽象化した方がよさそう
+% 群の作用が部分群の作用を誘導することも使う
+% HのGへの右からの積による作用と解釈する
+\begin{definition}
+    \label{quotient-def}
+    群$G$の部分群$H$に対し、左剰余類の集合を$G/H=\{gH\mid g\in G\}$と定義する。
+\end{definition}
+
+\begin{proposition}\label{group-action-to-equivrel}
+    \uses{left-action-def}
+    集合$X$に群$G$が左作用するとき、
+    同値関係$R_G$を$R_G(x,y)=1$であることが$x$と$y$が同じ軌道にある、
+    つまりある$g\in G$が存在して$gx=y$となることとする。
+\end{proposition}
+
+\begin{proposition}\label{subgroup-action}
+    \uses{subgroup-def,left-action-def}
+    集合$X$に群$G$が左作用するとき、
+    部分群$H\subset G$も$X$への左作用が誘導される。
+\end{proposition}
+
+% 同値関係による分割として抽象化した方がよさそう
+\begin{proposition}
+    \label{subgroup-decomp}
+    \uses{subgroup-def,decomposition-def,quotient-def,equivrel-to-decomp,group-action-to-equivrel,subgroup-action,left-multiplication}
+    $G$の部分群$H$に対し、$G$の分割が次のように定まる。
+    $f:G/H\to P(G)$を$gH\mapsto gH$で定めるとこれは分割になる。
+\end{proposition}
+
+\begin{proposition}\label{group-decomp}
+    \uses{decomp-equiv-action, subgroup-def,decomposition-def,left-action-def,subgroup-decomp,left-fixed-point,decomp-action,decomp-equiv,left-multiplication,powerset-action}
+    群$G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
+    \begin{enumerate}
+        \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。
+        \item $G$の部分群$H$が存在して、$G=X_1\sqcup\cdots\sqcup X_r$は$G$の$H$に関する左剰余類の分割$G=g_1H\sqcup\cdots g_rH$と一致する。（このような部分群$H$は一意である。）
+    \end{enumerate}
+    すなわち、$G$の作用で保たれる$G$の分割は$G$の部分群と一対一に対応する。
+\end{proposition}
+
+\chapter{環と代数}
+
+\chapter{体とガロア理論}
 
 \begin{proposition}\label{alg-hom}
     $A$を有限$K$代数とし、$h_1,\ldots,h_r:A\to K$を相異なる$K$準同型とする。
@@ -61,225 +338,6 @@
     $A=L_{X_1,\ldots,X_r}$をみたす$G$の分割$$G=X_1\sqcup \cdots\sqcup X_r$$が存在する。
     さらに、このような$X_1,\ldots,X_r$は並べ替えを除いて一意である。
     すなわち、$L_G$の部分$L$代数は$G$の分割と一対一に対応する。
-\end{proposition}
-
-\begin{definition}\label{group-def}
-    \lean{Group}
-    \leanok
-    集合$G$と$m:G\times G\to G, i:G\to G, e\in G$の組$(G,m,i,e)$が群であるとは
-    \begin{enumerate}
-        \item $m$が結合的なこと。$m(m(a,b),c)=m(a,m(b,c))$
-        \item $i$が逆元であること。$m(a,i(a))=m(i(a),a)=e$
-        \item $e$が単位元であること。$m(e,a)=m(a,e)=a$
-    \end{enumerate}
-\end{definition}
-
-\begin{definition}\label{subgroup-def}
-    \uses{group-def}
-    \lean{Subgroup}
-    \leanok
-    群$G$の部分群$H$とは、$H\subset G$であって、
-    \begin{enumerate}
-        \item $H$が$m$に関して閉じている。$a,b\in H\Rightarrow m(a,b)\in H$
-        \item $H$が$i$に関して閉じている。$a\in H\Rightarrow i(a)\in H$
-        \item $H$が$e$を含む。$e\in H$
-    \end{enumerate}
-    を満たすものである。
-\end{definition}
-
-\begin{definition}
-    \label{decomposition-def}
-    \lean{Family.Decomposition}
-    \leanok    
-    集合$X$の部分集合族$\{X_i\}_{i\in I}$が$X$の分割であるとは、
-    \begin{enumerate}
-        \item 任意の$i\in I$について$X_i\neq\emptyset$
-        \item $X=\bigcup_{i\in I}X_i$
-        \item $i\neq j\Rightarrow X_i\cap X_j=\emptyset$
-    \end{enumerate}
-    が成り立つことである。
-\end{definition}
-
-% 右作用と左作用を両方定義した方がよさそう
-\begin{definition}\label{left-action-def}
-    \uses{group-def}
-    \lean{LGSet}
-    \leanok
-    群$G$の集合$X$への左作用とは、$a:G\times X\to X$であって、
-    \begin{enumerate}
-        \item $a(g,a(g',x))=a(m(g,g'),x)$
-        \item $a(e,x)=x$
-        \item $a(i(g),a(g,x))=x$
-    \end{enumerate}
-    を満たすもの。
-\end{definition}
-
-\begin{definition}\label{right-action-def}
-    \uses{group-def}
-    群$G$の集合$X$への右作用とは、$a:G\times X\to X$であって、
-    \begin{enumerate}
-        \item $a(g,a(g',x))=a(m(g',g),x)$
-        \item $a(e,x)=x$
-        \item $a(i(g),a(g,x))=x$
-    \end{enumerate}
-    を満たすもの。
-\end{definition}
-
-\begin{proposition}
-    \label{left-fixed-point}
-    \uses{left-action-def}
-    \lean{isLFixedPoint}
-    \leanok
-    群$G$が$X$に左作用するとき、$x\in X$が固定点であるとは、
-    任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
-\end{proposition}
-
-\begin{proposition}
-    \label{right-fixed-point}
-    \uses{right-action-def}
-    群$G$が$X$に右作用するとき、$x\in X$が固定点であるとは、
-    任意の$g\in G$に対して$a(g,x)=g\cdot x=x$が成り立つことである。
-\end{proposition}
-
-\begin{proposition}
-    \label{left-multiplication}
-    \uses{left-action-def}
-    \lean{self_LGSet}
-    \leanok
-    群$G$は$G$に左からの積で左作用する。
-    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=gh$で定めると、これは$G$の$X$への左作用である。
-\end{proposition}
-
-\begin{proposition}
-    \label{right-multiplication}
-    \uses{right-action-def}
-    群$G$は$G$に右からの積で右作用する。
-    すなわち、$X=G$として$a:G\times G\to G$を$a(g,h)=hg$で定めると、これは$G$の$X$への右作用である。
-\end{proposition}
-
-% Xへの作用がX -> Yへの作用を誘導することも使う
-\begin{proposition}
-    \label{left-function-right-action}
-    \uses{left-action-def}
-    群$G$が$X$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が右作用する。
-    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto f(gx)$で定めるとこれは右作用になる。
-\end{proposition}
-
-\begin{proof}
-    $g, h\in G$と$f:X\to Y$に対し、
-    $(gh)\cdot f(x)=f((gh)x)=f(g(hx))=(g\cdot f)(hx)=h\cdot(g\cdot f)(x)$が成り立つ。
-\end{proof}
-
-\begin{proposition}
-    \label{left-function-left-action}
-    \uses{left-action-def}
-    \lean{fun_LGSet}
-    \leanok
-    群$G$が$X$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が左作用する。
-    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto f(g^{-1}x)$で定めるとこれは左作用になる。
-\end{proposition}
-
-\begin{proof}
-    $g, h\in G$と$f:X\to Y$に対し、
-    $(gh)\cdot f(x)=f((gh)^{-1}x)=f(h^{-1}(g^{-1}x))=(h\cdot f)(hx)=g\cdot(h\cdot f)(x)$が成り立つ。
-\end{proof}
-
-% P(X)=Set XをX -> Propとみて、GのXへの作用から誘導する。
-\begin{proposition}
-    \label{powerset-action}
-    \uses{left-action-def,left-function-left-action}
-    群$G$が$X$に左作用するとき、$G$の$P(X)$への左作用が次のように定まる。
-    すなわち$A\in P(X)$に対し、$g\cdot A=gA=\{g\cdot x\mid x\in A\}$と定める。
-\end{proposition}
-
-\begin{proof}
-    $P(X)$を$X \to 2$の集合とみる。
-    $f:X\to 2$に対し、$f^{-1}(1)\in P(X)$が対応する。
-    上の命題から、$g\cdot f$を$x\mapsto f(g^{-1}x)$で定めるとこれは左作用になる。
-    $A\in P(X)$に対応する$\chi_A:X\to 2$に対し、
-    $g\cdot \chi_A(x)=\chi_A(g^{-1}x)$であり、
-    $g\cdot\chi_A(x)=1$であることは$g^{-1}x\in A$と同値で、
-    これは$x\in (g^{-1})^{-1}A=gA$と同値である。
-\end{proof}
-
-% GがYに作用するとき、X -> Yに作用することを使う
-% 部分集合族への作用をI -> P(X)のGのP(X)への作用を誘導することから定め、
-% 部分集合族の中で分割の条件が上の群作用保たれることをみる。
-% G-setに対してsub G-setの概念を導入する。
-\begin{proposition}
-    \label{left-function-left-action2}
-    \uses{left-action-def}
-    群$G$が$Y$に左作用するとき、$X \to Y$全体の集合$Y^X$にも$G$が左作用する。
-    すなわち$f:X\to Y$に対し、$g\cdot f$を$x\mapsto gf(x)$で定めるとこれは左作用になる。
-\end{proposition}
-
-\begin{proof}
-    $g, h\in G$と$f:X\to Y$に対し、
-    $(gh)\cdot f(x)=ghf(x)=g\cdot(h\cdot f)(x)$が成り立つ。
-\end{proof}
-
-\begin{proposition}
-    \label{decomp-action}
-    \uses{left-action-def,decomposition-def,powerset-action,left-function-left-action2}
-    群$G$が$X$に作用するとき、添え字集合$I$を持つ$X$の分割全体の集合にも$G$が作用する。
-    すなわち$f:I\to P(X)$に対し、$g\cdot f$を$i\mapsto g\cdot f(i)$で定めるとこれは作用になる。
-\end{proposition}
-
-\begin{proof}
-    $G$の$X$への左作用から、$P(X)$への左作用が定まり、さらにそこから$I\to P(X)$全体への左作用が定まる。
-    これが分割であることを保つ。
-    空でない部分集合が空でない部分集合にうつる。
-    被覆ならば被覆にうつる。
-    互いに素ならば互いに素にうつる。
-\end{proof}
-
-% 対称群の群作用による同値関係で書いた方がよさそう
-\begin{proposition}
-    \label{decomp-equiv}
-    集合$X$の分割$f:I\to X$と$g:I\to X$が同値であるとは、
-    ある$\sigma\in S_I$が存在して、任意の$i\in I$に対し$f(i)=g(\sigma(i))$が成り立つことである。
-\end{proposition}
-
-% 群作用による商として抽象化した方がよさそう
-% 群の作用が部分群の作用を誘導することも使う
-% HのGへの右からの積による作用と解釈する
-\begin{definition}
-    \label{quotient-def}
-    群$G$の部分群$H$に対し、左剰余類の集合を$G/H=\{gH\mid g\in G\}$と定義する。
-\end{definition}
-
-\begin{proposition}\label{equivrel-to-decomp}
-    集合$X$上の同値関係$R$にたいし、集合$X$の分割$f:X/R \to X$を
-    $$f([x])=[x]$$とすることで定める。
-\end{proposition}
-
-\begin{proposition}\label{group-action-to-equivrel}
-    集合$X$に群$G$が左作用するとき、
-    同値関係$R_G$を$R_G(x,y)=1$であることが$x$と$y$が同じ軌道にある、
-    つまりある$g\in G$が存在して$gx=y$となることとする。
-\end{proposition}
-
-\begin{proposition}\label{subgroup-action}
-    集合$X$に群$G$が左作用するとき、
-    部分群$H\subset G$も$X$への左作用が誘導される。
-\end{proposition}
-
-% 同値関係による分割として抽象化した方がよさそう
-\begin{proposition}
-    \label{subgroup-decomp}
-    \uses{subgroup-def,decomposition-def,quotient-def,equivrel-to-decomp,group-action-to-equivrel,subgroup-action,left-multiplication}
-    $G$の部分群$H$に対し、$G$の分割が次のように定まる。
-    $f:G/H\to P(G)$を$gH\mapsto gH$で定めるとこれは分割になる。
-\end{proposition}
-
-\begin{proposition}\label{group-decomp}
-    \uses{subgroup-def,decomposition-def,left-action-def,subgroup-decomp,left-fixed-point,decomp-action,decomp-equiv,left-multiplication,powerset-action}
-    群$G$の分割$G=X_1\sqcup\cdots\sqcup X_r$に対し、以下は同値である。
-    \begin{enumerate}
-        \item $G=X_1\sqcup\cdots\sqcup X_r$は$G$の作用で保たれる。
-        \item $G$の部分群$H$が存在して、$G=X_1\sqcup\cdots\sqcup X_r$は$G$の$H$に関する左剰余類の分割$G=g_1H\sqcup\cdots g_rH$と一致する。（このような部分群$H$は一意である。）
-    \end{enumerate}
-    すなわち、$G$の作用で保たれる$G$の分割は$G$の部分群と一対一に対応する。
 \end{proposition}
 
 \begin{theorem}\label{main}
