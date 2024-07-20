@@ -1,3 +1,7 @@
 Group
 Subgroup
 Family.Decomposition
+LGSet
+isLFixedPoint
+self_LGSet
+fun_LGSet

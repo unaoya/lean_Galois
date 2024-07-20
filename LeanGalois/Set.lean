@@ -46,3 +46,12 @@ theorem Disjoint_iff_Intersect_empty {α : Type} (s t : Set α) : Set.Disjoint s
     exact h'
 
 end Set
+
+#check Setoid
+#print Setoid
+#check Equivalence
+#print Equivalence
+#check Quot
+#print Quot
+#check Quotient
+#print Quotient
